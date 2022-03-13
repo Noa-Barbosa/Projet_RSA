@@ -2,6 +2,7 @@ package iutdijon.projetrsabase.rsa;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Random;
 
 /**
  * Description de la classe
@@ -145,17 +146,55 @@ public class NombreBinaire {
      
      //DEFI 5 - Renvoie si this est plus petit ou égal à mot2
      public boolean estInferieurA(NombreBinaire mot2) {
-         return false;
+         if(this.getTaille()<mot2.getTaille()){
+             return true;
+         }
+         else if(this.getTaille()>mot2.getTaille()){
+             return false;
+         }
+         else{
+            int N = this.getTaille();
+            
+            //On commence à la fin car le bit avec le poids le plus significatif se trouve à la fin du nombre binaire
+            for (int i = N-1; i >= 0; i--) {
+                if (this.get(i) ^ mot2.get(i)) return mot2.get(i);
+            }
+            return false;
+         }
      }
      
      //DEFI 6 - Renvoie si this est égal à mot2 ou non
      public boolean estEgal(NombreBinaire mot2) {
-        return false;
+         boolean estEgal=false;
+         int i=0;
+         boolean bitEgal=true;
+         if(this.getTaille()==mot2.getTaille()){
+             while(i!=this.getTaille() && bitEgal){
+                 if(this.get(i)==mot2.get(i)){
+                     bitEgal=true;
+                 }
+                 else{
+                     bitEgal=false;
+                 }
+                 i++;
+             }
+             if(bitEgal){
+                 estEgal=true;
+             }
+             else{
+                 estEgal=false;
+             }
+         }
+         else{
+             estEgal=false;
+         }
+         
+        return estEgal;
      }
      
      //DEFI 7 - Renvoie si un nombre est pair
      public boolean estPair() {
-         return false;
+         return !this.get(0);
      }
      
      //DEFI 8 - Calcul la multiplication de this avec mot2
@@ -175,7 +214,17 @@ public class NombreBinaire {
      
     //DEFI 11 - Génère un nombre binaire aléatoire de "taille" bits au maximum.
     public static NombreBinaire randomAvecTailleMax(int taille) {
-       return null;
+        Random r = new Random();
+        NombreBinaire nbBin = null;
+        if(taille==0){
+            nbBin = new NombreBinaire(taille);
+        }
+        else{
+            String binString=NombreBinaire.getRandom01String(r.nextInt(taille)+1);
+            nbBin = new NombreBinaire(binString);
+        }
+          
+        return nbBin;
     }
     
      //DEFI 12 - Calcul de this^exposant modulo m par exponentiation modulaire rapide
@@ -190,7 +239,33 @@ public class NombreBinaire {
      
     //DEFI 14 - renvoie un nombre aléatoire entre min (inclu) et max (non inclu)
     public static NombreBinaire random(NombreBinaire min,NombreBinaire max) {
-        return null;
+        Random r = new Random();
+        NombreBinaire nbBin = null;
+        int taille=min.getTaille();
+        
+        if(min.getTaille()==max.getTaille()){
+            taille=min.getTaille();
+            String binString=NombreBinaire.getRandom01String(taille);
+            nbBin = new NombreBinaire(binString); 
+        }
+        else{
+            taille= min.getTaille()+1;
+        
+        taille+=r.nextInt(max.getTaille());
+        
+        if(taille>max.getTaille()) taille=max.getTaille()-1;
+
+        if(taille==0){
+            nbBin = new NombreBinaire(taille);
+        }
+        else{
+            String binString=NombreBinaire.getRandom01String(taille);
+            nbBin = new NombreBinaire(binString);
+        }
+        }
+        
+          
+        return nbBin;
     }
     
      //DEFI 15 - Calcul de l'inverse modulo nombre
@@ -225,5 +300,30 @@ public class NombreBinaire {
          }
          return t;
      }
+     
+     // function to generate a random string of length n
+    public static String getRandom01String(int n)
+    {
+        Random r = new Random();
+        // chose a Character random from this String
+        String AlphaNumericString = "01";
+  
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+     
+        while(sb.length()!=n){
+            // generate a random number between
+            // 0 to AlphaNumericString variable length-1
+            int index = r.nextInt(AlphaNumericString.length());
+  
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                          .charAt(index));
+        }  
+        if(sb.charAt(0)=='0'){
+            sb.setCharAt(0, '1');
+        }
+        return sb.toString();
+    }
      
 }

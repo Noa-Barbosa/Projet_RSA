@@ -18,6 +18,11 @@ public class DefiFabrique {
         
         switch(numeroDuDefis) {
             case 1 : defi = new Defi1ConnexionAuServeur(); break;
+            case 5 : defi = new Defi5EstInferieur(); break;
+            case 6 : defi = new Defi6EstEgal(); break;
+            case 7 : defi = new Defi7EstPair(); break;
+            case 11 : defi = new Defi11RandomTailleFixe(); break;
+            case 14 : defi = new Defi14RandomBornes(); break;
             
             default : throw new UnsupportedOperationException("Défis non implémenté !");
         }
