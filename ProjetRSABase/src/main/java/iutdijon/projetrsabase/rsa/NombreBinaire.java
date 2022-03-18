@@ -240,31 +240,20 @@ public class NombreBinaire {
     //DEFI 14 - renvoie un nombre aléatoire entre min (inclu) et max (non inclu)
     public static NombreBinaire random(NombreBinaire min,NombreBinaire max) {
         Random r = new Random();
-        NombreBinaire nbBin = null;
         int taille=min.getTaille();
-        
-        if(min.getTaille()==max.getTaille()){
-            taille=min.getTaille();
-            String binString=NombreBinaire.getRandom01String(taille);
-            nbBin = new NombreBinaire(binString); 
-        }
-        else{
-            taille= min.getTaille()+1;
-        
-        taille+=r.nextInt(max.getTaille());
-        
-        if(taille>max.getTaille()) taille=max.getTaille()-1;
+        NombreBinaire nbBin = NombreBinaire.randomAvecTailleMax(taille);
 
-        if(taille==0){
+        while(!nbBin.estInferieurA(max) || nbBin.estInferieurA(min)){
+            
+            if(taille==0){
             nbBin = new NombreBinaire(taille);
+            }
+            else{
+                String binString=NombreBinaire.getRandom01String(taille);
+                nbBin = new NombreBinaire(binString);
+            }
         }
-        else{
-            String binString=NombreBinaire.getRandom01String(taille);
-            nbBin = new NombreBinaire(binString);
-        }
-        }
-        
-          
+           
         return nbBin;
     }
     
