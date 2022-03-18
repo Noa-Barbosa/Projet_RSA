@@ -203,7 +203,14 @@ public class NombreBinaire {
      
      //DEFI 3 - Caclule le décalage de n bits (multiplie par 2^n)
      public NombreBinaire decalage(int n) {
-         return null;
+         
+         String BinStr = this.toString();
+         System.out.println(BinStr);
+         for(int i=0; i<n;i++){
+             BinStr+="0";
+         }
+         
+         return new NombreBinaire(BinStr);
      }
      
      //DEFI 4 - renvoie le resultat de l'addition de this avec mot3
