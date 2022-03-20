@@ -205,7 +205,6 @@ public class NombreBinaire {
      public NombreBinaire decalage(int n) {
          
          String BinStr = this.toString();
-         System.out.println(BinStr);
          for(int i=0; i<n;i++){
              BinStr+="0";
          }
@@ -335,7 +334,38 @@ public class NombreBinaire {
      
      //DEFI 10 - Calcul this modulo mot2 via une division euclidienne
      public NombreBinaire modulo(NombreBinaire mot2) {
-         return null;
+         
+         //Reste de la division euclidienne
+         NombreBinaire r=new NombreBinaire(this);
+         //Quotient de la division euclidienne
+         NombreBinaire q= new NombreBinaire();
+         
+         StringBuilder sb = new StringBuilder();
+         
+         q.forcerTaille(this.getTaille());
+         
+         sb.append(q.toString());
+         
+         int n=0;
+         if(this.getTaille()<mot2.getTaille()){
+             q=new NombreBinaire(this);
+         }
+         else{
+             while(!mot2.estInferieurA(r) || !mot2.estEgal(r)){
+                n=this.getTaille()-mot2.getTaille();
+                NombreBinaire mot2decale = mot2.decalage(n);
+                if(!mot2decale.estInferieurA(r) && !mot2decale.estEgal(r)){
+                    mot2decale=mot2.decalage(n-1);
+                    n=n-1;
+                }
+                r=r.soustraction(mot2decale);
+                sb.setCharAt(n, '1');
+            }
+             q= new NombreBinaire(sb.toString());
+         }
+         
+         
+         return q;
      }  
      
     //DEFI 11 - Génère un nombre binaire aléatoire de "taille" bits au maximum.
