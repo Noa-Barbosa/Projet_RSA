@@ -33,6 +33,22 @@ public class GenerateurDeClesRSA {
     }
     
     
+    public static void setP(NombreBinaire P) {
+        GenerateurDeClesRSA.P = P;
+    }
+
+    public static void setQ(NombreBinaire Q) {
+        GenerateurDeClesRSA.Q = Q;
+    }
+
+    public static void setPhi(NombreBinaire phi) {
+        GenerateurDeClesRSA.phi = phi;
+    }
+
+    public static void setE(NombreBinaire e) {
+        GenerateurDeClesRSA.e = e;
+    }    
+    
     //Défi 24 - Génère la clé publique (P,Q,N,phi et e)    
     public static void genererClePublique() {
         
@@ -40,7 +56,16 @@ public class GenerateurDeClesRSA {
     
     //Défi 20 - Renvoie la clé privée d
     public static NombreBinaire genererClePrive(NombreBinaire P,NombreBinaire Q,NombreBinaire e) {
-        return null;
+        NombreBinaire d = new NombreBinaire();
+        setP(P);
+        setQ(Q);
+        setE(e);
+        
+        setPhi((getP().soustraction(new NombreBinaire(1))).multiplication((getQ().soustraction(new NombreBinaire(1)))));
+        
+        d=getE().inverseModulaire(getPhi());
+        d.forcerTaille(ParametresRSA.getTailleCle());
+        return d;
     }
 
     

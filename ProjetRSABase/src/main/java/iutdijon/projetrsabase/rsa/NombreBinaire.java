@@ -428,12 +428,37 @@ public class NombreBinaire {
     
      //DEFI 12 - Calcul de this^exposant modulo m par exponentiation modulaire rapide
      public NombreBinaire puissanceModulo(NombreBinaire exposant, NombreBinaire m) {
-         return null;
+         NombreBinaire res = new NombreBinaire();
+         NombreBinaire a = new NombreBinaire(this);
+         
+         for(res=new NombreBinaire(1); !exposant.estInferieurA(new NombreBinaire(0));exposant=exposant.decalageGauche()){
+             if(!exposant.estPair()){
+                 res=res.multiplication(a);
+                 res=res.modulo(m); 
+             }
+             a=a.multiplication(a);
+             a=a.modulo(m);
+         }
+         return res;
      }
      
      //DEFI 13 - Calcul le PGCD de this et mot2
      public NombreBinaire PGCD(NombreBinaire mot2) {
-        return null;
+         
+         NombreBinaire a= new NombreBinaire(this);
+         NombreBinaire b= new NombreBinaire(mot2);
+         
+         if(a.estInferieurA(b) && !a.estEgal(b)){
+             NombreBinaire temp=new NombreBinaire(a);
+             a=new NombreBinaire(b);
+             b=new NombreBinaire(temp);     
+         }
+         while(!b.estEgal(new NombreBinaire(0))){
+             NombreBinaire temp=new NombreBinaire(b);
+             b=new NombreBinaire(a.modulo(b)); 
+             a=new NombreBinaire(temp);      
+         } 
+         return a;
      }
      
     //DEFI 14 - renvoie un nombre aléatoire entre min (inclu) et max (non inclu)
@@ -442,10 +467,10 @@ public class NombreBinaire {
         int taille=min.getTaille();
         NombreBinaire nbBin = NombreBinaire.randomAvecTailleMax(taille);
 
-        while(!nbBin.estInferieurA(max) || nbBin.estInferieurA(min)){
+        while(!nbBin.estInferieurA(max) || (nbBin.estInferieurA(min) && !nbBin.estEgal(min))){
             
             if(taille==0){
-            nbBin = new NombreBinaire(taille);
+                nbBin = new NombreBinaire(taille);
             }
             else{
                 String binString=NombreBinaire.getRandom01String(taille);
@@ -512,6 +537,16 @@ public class NombreBinaire {
             sb.setCharAt(0, '1');
         }
         return sb.toString();
+    }
+    
+    public NombreBinaire decalageGauche(){
+        String binStr = this.toString().substring(0, this.toString().length()-1);
+        
+        
+        NombreBinaire res = new NombreBinaire(binStr);
+       
+        
+        return res;
     }
      
 }
