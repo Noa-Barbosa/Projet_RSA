@@ -144,26 +144,28 @@ public class NombreBinaire {
          
          if(this.getTaille()>mot2.getTaille()){
              taille=this.getTaille();
-             mot2.forcerTaille(taille);
-             mot3.forcerTaille(taille);
-             //mot3 = new NombreBinaire(this);
          }
          else{
              taille=mot2.getTaille();
-             this.forcerTaille(taille);
-             mot3.forcerTaille(taille);
-             //mot3 = new NombreBinaire(mot2);
          }
 
          for(int i=0; i<taille; i++){
-             if(this.get(i)==true){
+             if(i>=this.getTaille()){
+                 b1=0;
+             }
+             
+             
+             else if(this.get(i)==true){
                  b1=1;
              }
              else{
                  b1=0;
              }
              
-             if(mot2.get(i)==true){
+             if(i>=mot2.getTaille()){
+                 b2=0;
+             }
+             else if(mot2.get(i)==true){
                  b2=1;
              }
              else{
@@ -189,13 +191,14 @@ public class NombreBinaire {
                  case 3:
                      mot3.set(i, true);
                      r=1;
+                     break;
              }
              
          }
          
          if(r==1){
-             mot3.forcerTaille(taille+1);
-             mot3.set(mot3.getTaille()-1, true);
+             
+             mot3.set(taille, true);
          }
 
          return mot3;
@@ -205,7 +208,6 @@ public class NombreBinaire {
      public NombreBinaire decalage(int n) {
          
          String BinStr = this.toString();
-         System.out.println(BinStr);
          for(int i=0; i<n;i++){
              BinStr+="0";
          }
@@ -225,8 +227,8 @@ public class NombreBinaire {
          //Le nouveau nombre binaire former après la soustraction
          NombreBinaire mot3 = new NombreBinaire();
 
-         mot2.forcerTaille(this.getTaille());
-         mot3.forcerTaille(this.getTaille());
+         //mot2.forcerTaille(this.getTaille());
+         //mot3.forcerTaille(this.getTaille());
          
          for(int i=0; i<this.getTaille(); i++){
              if(this.get(i)==true){
@@ -335,7 +337,33 @@ public class NombreBinaire {
      
      //DEFI 10 - Calcul this modulo mot2 via une division euclidienne
      public NombreBinaire modulo(NombreBinaire mot2) {
-         return null;
+         
+         //Reste de la division euclidienne
+         NombreBinaire r=new NombreBinaire(this);
+         //Quotient de la division euclidienne
+         NombreBinaire q= new NombreBinaire(0);
+                  
+         int n=0;
+         if(this.getTaille()>=mot2.getTaille()){
+             while(mot2.estInferieurA(r)){
+                 n=r.getTaille()-mot2.getTaille();
+                 NombreBinaire mot2decale = mot2.decalage(n);
+                 if(!mot2decale.estInferieurA(r)){
+                     mot2decale=mot2.decalage(n-1);
+                     n=n-1;
+                 }
+                 r=r.soustraction(mot2decale);
+                 NombreBinaire puissance = new NombreBinaire(1);
+                 puissance=puissance.decalage(n);
+                 q=q.addition(puissance);
+             }
+         }
+         else{
+             q=new NombreBinaire(this);
+         }
+         
+         
+         return q;
      }  
      
     //DEFI 11 - Génère un nombre binaire aléatoire de "taille" bits au maximum.
