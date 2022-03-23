@@ -287,7 +287,7 @@ public class NombreBinaire {
             for (int i = N-1; i >= 0; i--) {
                 if (this.get(i) ^ mot2.get(i)) return mot2.get(i);
             }
-            return false;
+            return true;
          }
      }
      
@@ -332,19 +332,18 @@ public class NombreBinaire {
 
      //DEFI 9 - Calcul le quotient dans la division euclidienne de this par mot2
      public NombreBinaire quotient(NombreBinaire mot2) {
-        return null;
-     }
-     
-     //DEFI 10 - Calcul this modulo mot2 via une division euclidienne
-     public NombreBinaire modulo(NombreBinaire mot2) {
-         
+        
          //Reste de la division euclidienne
          NombreBinaire r=new NombreBinaire(this);
          //Quotient de la division euclidienne
          NombreBinaire q= new NombreBinaire(0);
                   
          int n=0;
-         if(this.getTaille()>=mot2.getTaille()){
+         if(mot2.get(n)==true && mot2.getTaille()==1){
+             q= new NombreBinaire(this);
+         }
+         else{
+            if(r.getTaille()>=mot2.getTaille()){
              while(mot2.estInferieurA(r)){
                  n=r.getTaille()-mot2.getTaille();
                  NombreBinaire mot2decale = mot2.decalage(n);
@@ -356,14 +355,53 @@ public class NombreBinaire {
                  NombreBinaire puissance = new NombreBinaire(1);
                  puissance=puissance.decalage(n);
                  q=q.addition(puissance);
-             }
-         }
-         else{
-             q=new NombreBinaire(this);
+                }
+            }
+            else{
+                q=new NombreBinaire(0);
+            }
+          
          }
          
          
          return q;
+     }
+     
+     //DEFI 10 - Calcul this modulo mot2 via une division euclidienne
+     public NombreBinaire modulo(NombreBinaire mot2) {
+         
+         //Reste de la division euclidienne
+         NombreBinaire r=new NombreBinaire(this);
+         //Quotient de la division euclidienne
+         NombreBinaire q= new NombreBinaire(0);
+                  
+         int n=0;
+         if(mot2.get(n)==true && mot2.getTaille()==1){
+             r= new NombreBinaire(0);
+         }
+         else{
+            if(r.getTaille()>=mot2.getTaille()){
+             while(mot2.estInferieurA(r)){
+                 n=r.getTaille()-mot2.getTaille();
+                 NombreBinaire mot2decale = mot2.decalage(n);
+                 if(!mot2decale.estInferieurA(r)){
+                     mot2decale=mot2.decalage(n-1);
+                     n=n-1;
+                 }
+                 r=r.soustraction(mot2decale);
+                 NombreBinaire puissance = new NombreBinaire(1);
+                 puissance=puissance.decalage(n);
+                 q=q.addition(puissance);
+                }
+            }
+            else{
+                r=new NombreBinaire(this);
+            }
+          
+         }
+         
+         
+         return r;
      }  
      
     //DEFI 11 - Génère un nombre binaire aléatoire de "taille" bits au maximum.
