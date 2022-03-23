@@ -327,7 +327,14 @@ public class NombreBinaire {
      
      //DEFI 8 - Calcul la multiplication de this avec mot2
      public NombreBinaire multiplication(NombreBinaire mot2) {
-        return null;
+         NombreBinaire res = new NombreBinaire(0);
+         
+         for(int i =0; i<mot2.getTaille(); i++){
+             if(mot2.get(i)){
+                 res=res.addition(this.decalage(i));
+             }  
+         }
+        return res;
      }
 
      //DEFI 9 - Calcul le quotient dans la division euclidienne de this par mot2
