@@ -467,7 +467,7 @@ public class NombreBinaire {
         int taille=min.getTaille();
         NombreBinaire nbBin = NombreBinaire.randomAvecTailleMax(taille);
 
-        while(!nbBin.estInferieurA(max) || (nbBin.estInferieurA(min) && !nbBin.estEgal(min))){
+        while(!nbBin.estInferieurA(max) || (nbBin.estInferieurA(min))){
             
             if(taille==0){
                 nbBin = new NombreBinaire(taille);
@@ -542,10 +542,8 @@ public class NombreBinaire {
     public NombreBinaire decalageGauche(){
         String binStr = this.toString().substring(0, this.toString().length()-1);
         
-        
         NombreBinaire res = new NombreBinaire(binStr);
-       
-        
+
         return res;
     }
      
